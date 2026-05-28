@@ -1,7 +1,7 @@
 # Product Shot Generator — 核心功能說明
 
-**版本號：v1.0.0**  
-**最後更新：2026-05-07**
+**版本號：v1.1.0**  
+**最後更新：2026-05-28**
 
 ---
 
@@ -9,8 +9,8 @@
 
 本應用為一個 AI 驅動的電商形象照生成平台，採用 CrewAI 多 Agent 協作架構（JS 實作），搭配 Google Gemini Image Generation 模型（Nano Banana）生成產品/模特兒形象照。
 
-**部署方式**：GitHub → Vercel（純前端靜態部署）  
-**API 呼叫方式**：瀏覽器端直接呼叫 Gemini API（API Key 由使用者輸入，儲存於 localStorage）
+**部署方式**：GitHub → Vercel（純前端靜態部署，支援自動同步）  
+**API 呼叫方式**：瀏覽器端直接呼叫 Gemini / Imagen API（API Key 由使用者輸入，儲存於 localStorage）
 
 ---
 
@@ -21,8 +21,8 @@
 | # | Agent | 角色 | 使用模型 | 職責 |
 |---|-------|------|---------|------|
 | 1 | Creative Director | 創意總監 | gemini-2.5-flash | 分析產品結構（左右前後）、規劃每張照片的獨特拍攝角度、建立 Product Anatomy Map |
-| 2 | Prompt Engineer | 提示詞工程師 | gemini-2.5-flash | 將拍攝方案轉化為 Gemini 最佳化 prompt，包含 Identity Block + Spatial Direction Block |
-| 3 | Photographer | 攝影師 | gemini-2.5-flash-preview-image-generation | 調用 Gemini Image Gen 模型，傳入參考圖 + prompt 生成形象照 |
+| 2 | Prompt Engineer | 提示詞工程師 | gemini-2.5-flash | 將拍攝方案轉化為 Gemini 最佳化 prompt，包含 Identity Block + Spatial Direction Block + Outfit Block，確保特徵不變 |
+| 3 | Photographer | 攝影師 | 3-Tier Fallback | 呼叫影像模型，傳入參考圖 + prompt。遇到 Quota Limit 自動降級 (3.1-flash -> 2.5-flash -> imagen-4.0) |
 | 4 | Quality Inspector | 品質審核官 | gemini-2.5-flash | 比對原始產品圖 vs 生成圖，檢查 Logo/釦飾/圖案位置一致性、空間準確度、專業品質 |
 | 5 | Photo Editor | 修圖師 | gemini-2.5-flash-preview-image-generation | 僅在使用者手動要求修改時啟動，根據修改意見編輯圖片 |
 
@@ -51,6 +51,7 @@ Creative Director → Prompt Engineer → Photographer → Quality Inspector
 | Product Anatomy Map | 創意總監先分析產品的左右前後各有什麼裝飾，建立空間地圖 |
 | Identity Block | 提示詞工程師建立固定的產品描述模板，所有照片共用，確保一致性 |
 | Spatial Direction Block | 每張照片標註「相機位置 → 可見面 → 該出現的裝飾」，避免 AI 搞混方向 |
+| Outfit Consistency | (針對模特兒) 創意總監鎖定服裝，提示詞工程師嚴格複製到每一張照片，品管員把關服裝改變就退件 |
 | 比對審核 | 品質審核官同時看原始產品圖和生成圖，逐項檢查 Logo、釦飾、圖案是否在正確位置 |
 
 ---
@@ -71,9 +72,12 @@ Creative Director → Prompt Engineer → Photographer → Quality Inspector
 | 生成張數 | selector | 1-6 張 |
 | 圖片比例 | pills | 1:1、16:9、9:16、4:3、3:4（一次只能選一個） |
 
-### 3.2 生成進度追蹤
+### 3.2 生成進度追蹤與 UI
 
 - 即時百分比顯示（0-100%）
+- 8-Bit 像素角色進度追蹤 (Pixel Art Agents)：
+  - 每個角色 (總監/工程師/攝影師/品管員) 都有專屬的 SVG 像素圖
+  - 狀態動畫：工作時彈跳 (`Bounce`)，完成時雙手舉高比 YA (`Pop`)
 - 當前 Agent 步驟指示器（4 步 + 完成）
 - 可隨時取消
 
@@ -82,6 +86,7 @@ Creative Director → Prompt Engineer → Photographer → Quality Inspector
 | 功能 | 說明 |
 |------|------|
 | 預覽圖網格 | 根據選擇的比例顯示 |
+| 模型徽章 | 圖片右下角會顯示該圖使用的生成模型 (T1 / T2 / T3) |
 | 品質分數 | 每張圖顯示 🎯 產品一致性分數 + ⭐ 總分 |
 | 問題標記 | 如有產品一致性問題，以 ⚠️ 顯示具體問題 |
 | 單張下載 | hover 照片 → 點擊下載按鈕 |
@@ -109,7 +114,7 @@ Creative Director → Prompt Engineer → Photographer → Quality Inspector
 | 前端框架 | Vite + React | SPA 應用 |
 | 樣式 | Vanilla CSS | 深色主題、glassmorphism、動畫 |
 | 狀態管理 | React Context + useReducer | 全域狀態 |
-| AI 模型 | Google Gemini API (@google/genai) | 文字推理 + 圖片生成 |
+| AI 模型 | Google GenAI SDK | 文字推理 (Gemini) + 圖片生成 (3.1/2.5 Flash, Imagen 4) |
 | 檔案打包 | JSZip + FileSaver.js | ZIP 下載 |
 | 部署 | Vercel | 靜態網站 |
 

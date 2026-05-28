@@ -2,6 +2,39 @@
 
 ---
 
+## [v1.1.0] — 2026-05-28
+
+### 🎉 新增與強化功能
+
+#### 1. 三層模型降級機制 (3-Tier Fallback)
+- **智慧模型切換**：當首選模型達到配額限制 (Quota Limit/429) 時，自動降級至下一層。
+  - 第一層：`gemini-3.1-flash-image-preview`
+  - 第二層：`gemini-2.5-flash-image`
+  - 第三層：`imagen-4.0-generate-001`
+- **UI 徽章顯示**：生成結果會在右下角標註該圖片使用的模型層級 (T1 / T2 / T3)。
+- **連線優化**：自動過濾並重置耗盡的模型狀態。
+
+#### 2. 強制服裝一致性 (Outfit Consistency)
+- **Creative Director 升級**：強制分析並固定模特兒服裝 (modelOutfit)。
+- **Prompt Engineer 強化**：新增 `[MODEL & OUTFIT IDENTITY BLOCK]`，確保所有分鏡的服裝細節 100% 相同。
+- **Quality Inspector 嚴格檢查**：若服裝在生成過程改變，直接退件重做。
+
+#### 3. 8-Bit 像素角色進度動畫 (Pixel Art Agents)
+- **SVG 原生角色**：完全使用 SVG 方塊刻劃 4 種角色的像素風格，畫風一致且零延遲載入。
+  - 🎨 創意總監 (紅色畫家帽)
+  - 💻 提示詞工程師 (青色粗框眼鏡)
+  - 📷 攝影師 (配戴相機)
+  - 🔍 品管員 (綠色督察制服)
+- **動態回饋**：
+  - **等待中**：半透明灰階。
+  - **工作中**：上下可愛彈跳 (`animate-bounce-slow`)。
+  - **完成時**：雙手高舉歡呼 YA! (`animate-ya-pop`)。
+
+#### 4. GitHub to Vercel 自動部署
+- 重新連結 Vercel webhook，確保程式碼 `git push` 時會自動觸發 Vercel 生產環境更新。
+
+---
+
 ## [v1.0.0] — 2026-05-07
 
 ### 🎉 初始版本
