@@ -48,12 +48,12 @@ export default function ProgressTracker({ onCancel }) {
           const isDone = currentIndex > i || currentAgent === 'complete';
           const isActive = currentIndex === i;
           return (
-            <div key={step} className={`progress-step flex items-center gap-3 ${isActive ? 'active' : ''} ${isDone ? 'done' : ''}`}>
+            <div key={step} className={`progress-step ${isActive ? 'active' : ''} ${isDone ? 'done' : ''}`}>
               <PixelAgent 
                 agent={step} 
                 status={isDone ? 'done' : isActive ? 'working' : 'pending'} 
               />
-              <span className="ml-2 font-medium">
+              <span>
                 {t(lang, `progress.${step}`)}
               </span>
             </div>

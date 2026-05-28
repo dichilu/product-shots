@@ -156,12 +156,17 @@ export default function PixelAgent({ agent = 'creativeDirector', status = 'pendi
 
   // If pending, grey out slightly. If working, add bounce animation.
   let className = "pixel-agent";
-  if (status === 'pending') className += " opacity-50 grayscale";
+  let style = { width: '28px', height: '28px', flexShrink: 0, transition: 'all 0.3s ease' };
+  
+  if (status === 'pending') {
+    style.opacity = 0.4;
+    style.filter = 'grayscale(100%)';
+  }
   if (status === 'working') className += " animate-bounce-slow";
   if (status === 'done') className += " animate-ya-pop";
 
   return (
-    <div className={`w-10 h-10 ${className}`}>
+    <div className={className} style={style}>
       <svg viewBox="0 0 14 14" width="100%" height="100%" style={{ shapeRendering: 'crispEdges' }}>
         {pixels}
       </svg>
