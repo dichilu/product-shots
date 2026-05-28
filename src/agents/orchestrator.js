@@ -9,7 +9,7 @@
  * 5. Photo Editor → User-requested edits (on-demand)
  */
 
-import { generateText, generateImage, editImage } from '../utils/gemini.js';
+import { generateText, generateImage, editImage, resetTierState } from '../utils/gemini.js';
 
 const MAX_RETRIES = 2;
 
@@ -225,6 +225,7 @@ async function runPhotographer(apiKey, params, prompts, onProgress, specificIndi
             cameraPosition: promptObj.cameraPosition || '',
             visibleDetails: promptObj.visibleDetails || '',
             textResponse: result.textResponse,
+            usedTier: result.usedTier,
           });
           success = true;
         }
@@ -384,6 +385,9 @@ export async function runCrewPipeline(apiKey, params, onProgress) {
   };
 
   try {
+    // Reset tier state at start of each pipeline run
+    resetTierState();
+
     // ═══ Step 1: Creative Director ═══
     const creativeResult = await runCreativeDirector(apiKey, params, onProgress);
     results.creativePlan = creativeResult;

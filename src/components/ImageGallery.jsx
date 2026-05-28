@@ -92,6 +92,24 @@ export default function ImageGallery({ onEdit, onRegenerate }) {
                 {img.angle || `#${i + 1}`}
               </span>
               <div style={{ display: 'flex', gap: '0.35rem', alignItems: 'center' }}>
+                {img.usedTier && (
+                  <span
+                    className="gallery-item-score"
+                    title={img.usedTier.id}
+                    style={{
+                      background: img.usedTier.id.includes('3.1') ? 'rgba(99,102,241,0.12)'
+                               : img.usedTier.id.includes('imagen') ? 'rgba(245,158,11,0.12)'
+                               : 'rgba(16,185,129,0.12)',
+                      color: img.usedTier.id.includes('3.1') ? '#6366f1'
+                           : img.usedTier.id.includes('imagen') ? '#d97706'
+                           : '#10b981',
+                    }}
+                  >
+                    {img.usedTier.id.includes('3.1') ? '🔮 T1'
+                     : img.usedTier.id.includes('imagen') ? '🖼 T3'
+                     : '⚡ T2'}
+                  </span>
+                )}
                 {img.review?.productConsistency?.score && (
                   <span className="gallery-item-score" title={lang === 'zh' ? '產品一致性' : 'Product Consistency'}>
                     🎯 {img.review.productConsistency.score}
