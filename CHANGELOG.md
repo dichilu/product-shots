@@ -33,6 +33,10 @@
 #### 4. GitHub to Vercel 自動部署
 - 重新連結 Vercel webhook，確保程式碼 `git push` 時會自動觸發 Vercel 生產環境更新。
 
+### 🐛 Bug 修正
+- **場景設定失效修復**：移除提示詞工程師中寫死的 `natural studio lighting`，並強制寫入使用者設定的 `Location`，確保外景設定（如日本澀谷街頭）能正確生成。
+- **排版破裂修復**：由於專案使用 Vanilla CSS，移除了不相容的 Tailwind CSS class，改用原生 inline style 重新設計 8-Bit 角色的尺寸 (`48px`) 與半透明濾鏡，確保不干擾原本的進度條格子。
+
 ---
 
 ## [v1.0.0] — 2026-05-07
