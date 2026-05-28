@@ -152,10 +152,12 @@ ${type === 'model' ? `**[MODEL & OUTFIT IDENTITY BLOCK]** (IDENTICAL across all 
 - Describe pose naturally for each angle` : ''}
 
 **[SCENE BLOCK]** (Per prompt)
-- Composition, environment, lighting, atmosphere
+- Location MUST specifically be: ${location || 'Professional studio'}
+- Season/Time MUST be: ${season || 'Not specified'}
+- Include composition, environment, and atmosphere details from the Creative Director's plan to make the scene look realistic.
 
 **[QUALITY BLOCK]** (IDENTICAL)
-- "Shot on Hasselblad H6D-100c, 100mm f/2.8, natural studio lighting, 8K resolution, ultra-detailed, commercial quality, award-winning product photography"
+- "Shot on Hasselblad H6D-100c, 100mm f/2.8, professional cinematic lighting, 8K resolution, ultra-detailed, commercial quality, award-winning product photography"
 
 ═══ CRITICAL RULES ═══
 1. The PRODUCT IDENTITY BLOCK must be COPY-PASTED identically in every prompt
