@@ -156,7 +156,7 @@ export default function PixelAgent({ agent = 'creativeDirector', status = 'pendi
 
   // If pending, grey out slightly. If working, add bounce animation.
   let className = "pixel-agent";
-  let style = { width: '28px', height: '28px', flexShrink: 0, transition: 'all 0.3s ease' };
+  let style = { width: '48px', height: '48px', flexShrink: 0, transition: 'all 0.3s ease' };
   
   if (status === 'pending') {
     style.opacity = 0.4;
