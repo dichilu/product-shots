@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { useApp } from '../contexts/AppContext.jsx';
 import { t } from '../utils/i18n.js';
+import PixelAgent from './PixelAgent.jsx';
 
 const AGENT_STEPS = ['creativeDirector', 'promptEngineer', 'photographer', 'qualityInspector', 'complete'];
 
@@ -47,9 +48,12 @@ export default function ProgressTracker({ onCancel }) {
           const isDone = currentIndex > i || currentAgent === 'complete';
           const isActive = currentIndex === i;
           return (
-            <div key={step} className={`progress-step ${isActive ? 'active' : ''} ${isDone ? 'done' : ''}`}>
-              <div className="progress-step-dot" />
-              <span>
+            <div key={step} className={`progress-step flex items-center gap-3 ${isActive ? 'active' : ''} ${isDone ? 'done' : ''}`}>
+              <PixelAgent 
+                agent={step} 
+                status={isDone ? 'done' : isActive ? 'working' : 'pending'} 
+              />
+              <span className="ml-2 font-medium">
                 {t(lang, `progress.${step}`)}
               </span>
             </div>

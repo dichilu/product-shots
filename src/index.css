@@ -522,3 +522,22 @@ body {
   border-top-color: var(--accent);
 }
 @keyframes spin { to { transform: rotate(360deg); } }
+
+/* 🎮 Pixel Agent Animations 🎮 */
+.animate-bounce-slow {
+  animation: pixelBounce 1s steps(2, end) infinite;
+}
+@keyframes pixelBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+
+.animate-ya-pop {
+  animation: yaPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+@keyframes yaPop {
+  0% { transform: scale(1) translateY(0); }
+  50% { transform: scale(1.1) translateY(-4px); }
+  100% { transform: scale(1) translateY(0); }
+}
+
