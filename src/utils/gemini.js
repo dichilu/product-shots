@@ -8,9 +8,9 @@ let currentApiKey = null;
 // Tier 2: Nano Banana (fast, reliable)
 // Tier 3: Imagen 4 Standard (fallback, different API)
 export const IMAGE_MODEL_TIERS = [
-  { id: 'gemini-3.1-flash-image-preview', name: 'Nano Banana 2',    type: 'gemini' },
-  { id: 'gemini-2.5-flash-image',         name: 'Nano Banana',      type: 'gemini' },
-  { id: 'imagen-4.0-generate-001',        name: 'Imagen 4 Standard', type: 'imagen' },
+  { id: 'gemini-3.1-flash-image-preview', name: 'Nano Banana 2', type: 'gemini' },
+  { id: 'gemini-2.5-flash-image', name: 'Nano Banana', type: 'gemini' },
+  { id: 'imagen-4.0-generate-001', name: 'Imagen 4 Standard', type: 'imagen' },
 ];
 
 // Session-level tier tracking (resets on page reload)

@@ -84,10 +84,10 @@ CRITICAL RULES:
 - Each photo MUST use a DIFFERENT angle
 - For EACH angle, explicitly state which product details (logos, buckles, patterns) should be VISIBLE vs HIDDEN based on the camera position
 - The product must be the visual hero in every shot
-- ${type === 'model' ? 'The model must look natural and aspirational, drawing attention TO the product' : 'The product should command attention with perfect lighting and composition'}
+- ${type === 'model' ? 'The model must look natural and aspirational. CRITICAL: Analyze the reference model\'s clothing and provide a HIGHLY DETAILED description of their exact outfit (top, bottom, accessories). This outfit MUST remain identical across all shots.' : 'The product should command attention with perfect lighting and composition'}
 - Every photo should make the viewer want to BUY the product
 
-Output as JSON: { productAnatomyMap: { leftSide: string, rightSide: string, front: string, back: string, asymmetricElements: string[] }, shots: [{angle, cameraPosition, visibleSides, expectedDetails, composition, lighting, mood, productFocus, background}] }`;
+Output as JSON: { productAnatomyMap: { leftSide: string, rightSide: string, front: string, back: string, asymmetricElements: string[] }, ${type === 'model' ? '"modelOutfit": "detailed outfit description", ' : ''}shots: [{angle, cameraPosition, visibleSides, expectedDetails, composition, lighting, mood, productFocus, background}] }`;
 
   const images = [];
   if (productImage) images.push(productImage);
@@ -144,8 +144,10 @@ Each prompt MUST contain these blocks IN ORDER:
 - State which details should NOT be visible
 - Example: "Camera is positioned at 45° to the right. The RIGHT outer side of the shoe faces the camera. The gold logo is on the LEFT side and should NOT be visible from this angle."
 
-${type === 'model' ? `**[MODEL IDENTITY BLOCK]** (IDENTICAL across all prompts)
+${type === 'model' ? `**[MODEL & OUTFIT IDENTITY BLOCK]** (IDENTICAL across all prompts)
 - Describe the model exactly as in the reference: face shape, skin tone, hair style/color, body type
+- Describe the model's exact outfit based on the Creative Director's plan: "${creativePlan.modelOutfit || 'Analyze from reference and keep identical'}"
+- This outfit description MUST be 100% IDENTICAL in every single prompt. Do not change colors, styles, or pieces.
 - Always say "same model as the reference photo"
 - Describe pose naturally for each angle` : ''}
 
@@ -282,9 +284,10 @@ Given the camera angle:
 11. Is the lighting professional?
 12. Would this photo make someone want to BUY the product?
 
-${params.type === 'model' ? `**D. MODEL CONSISTENCY**
+${params.type === 'model' ? `**D. MODEL & OUTFIT CONSISTENCY**
 13. Does the model match the reference? (Face, body, skin tone, hair)
-14. Is the model's pose natural for this angle?` : ''}
+14. Is the model wearing the EXACT SAME OUTFIT as the other shots / reference? (Top, bottom, style must match). Reject if clothing changes.
+15. Is the model's pose natural for this angle?` : ''}
 
 ═══ OUTPUT ═══
 Output as JSON:
