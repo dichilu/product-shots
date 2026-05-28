@@ -45,3 +45,6 @@
 - React + Vite
 - Google GenAI SDK (`@google/genai`)
 - JSZip & FileSaver (用於圖片封裝下載)
+
+---
+*測試 GitHub 到 Vercel 自動部署同步機制 (2026-05-28)*
